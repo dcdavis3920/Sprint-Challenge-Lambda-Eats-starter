@@ -9,10 +9,10 @@ const formSchema = yup.object().shape({
     .required("please input a name")
     .min(2, "name must be more than 2 characters"),
   size: yup.string().required("must include pizza size"),
-  pepperoni: yup.boolean().oneOf([true || false], "choose topping"),
-  sausage: yup.boolean().oneOf([true || false], "choose topping"),
-  onion: yup.boolean().oneOf([true || false], "choose topping"),
-  mushroom: yup.boolean().oneOf([true || false], "choose topping"),
+  pepperoni: yup.boolean(),
+  sausage: yup.boolean(),
+  onion: yup.boolean(),
+  mushroom: yup.boolean(),
   instruction: yup.string().required("special instruction")
 });
 
@@ -21,6 +21,7 @@ export default function Form() {
   const [formState, setFormState] = useState({
     name: "",
     size: "",
+    pepperoni: "",
     sausage: "",
     onion: "",
     mushroom: "",
@@ -30,6 +31,7 @@ export default function Form() {
   const [errors, setErrors] = useState({
     name: "",
     size: "",
+    pepperoni: "",
     sausage: "",
     onion: "",
     mushroom: "",
@@ -38,11 +40,11 @@ export default function Form() {
 
   const [post, setPost] = useState([]);
 
-  useEffect(() => {
-    formSchema.isValid(formState).then(valid => {
-      setButton(!valid);
-    });
-  }, [formState]);
+  //   useEffect(() => {
+  //     formSchema.isValid(formState).then(valid => {
+  //       setButton(!valid);
+  //     });
+  //   }, [formState]);
 
   const formSubmit = e => {
     e.preventDefault();
@@ -54,6 +56,7 @@ export default function Form() {
         setFormState({
           name: "",
           size: "",
+          pepperoni: "",
           sausage: "",
           onion: "",
           mushroom: "",
@@ -71,7 +74,7 @@ export default function Form() {
   const validateChange = e => {
     yup
       .reach(formSchema, e.target.name)
-      .validate(e.target.name === "terms" ? e.target.checked : e.target.value)
+      .validate(e.target.value)
       .then(valid => {
         setErrors({
           ...errors,
@@ -129,7 +132,7 @@ export default function Form() {
           id="pepperoni"
           type="checkbox"
           name="pepperoni"
-          checked={formState.terms}
+          checked={formState.pepperoni}
           onChange={inputChange}
         />
       </label>
@@ -139,7 +142,7 @@ export default function Form() {
           id="sausage"
           type="checkbox"
           name="sausage"
-          checked={formState.terms}
+          checked={formState.sausage}
           onChange={inputChange}
         />
       </label>
@@ -149,7 +152,7 @@ export default function Form() {
           id="onion"
           type="checkbox"
           name="onion"
-          checked={formState.terms}
+          checked={formState.onion}
           onChange={inputChange}
         />
       </label>
@@ -159,7 +162,7 @@ export default function Form() {
           id="mushroom"
           type="checkbox"
           name="mushroom"
-          checked={formState.terms}
+          checked={formState.mushroom}
           onChange={inputChange}
         />
       </label>
@@ -174,7 +177,8 @@ export default function Form() {
       </label>{" "}
       <br />
       <pre>{JSON.stringify(post, null, 2)}</pre>
-      <button disabled={button}>Submit</button>
+      {/* <button disabled={button}>Submit</button> */}
+      <button type="submit">Order</button>
     </form>
   );
 }
