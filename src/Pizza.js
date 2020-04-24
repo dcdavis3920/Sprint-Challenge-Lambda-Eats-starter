@@ -13,7 +13,7 @@ const formSchema = yup.object().shape({
   sausage: yup.boolean(),
   onion: yup.boolean(),
   mushroom: yup.boolean(),
-  instruction: yup.string().required("special instruction")
+  instruction: yup.string().required("special instruction"),
 });
 
 export default function Form() {
@@ -25,7 +25,7 @@ export default function Form() {
     sausage: "",
     onion: "",
     mushroom: "",
-    instruction: ""
+    instruction: "",
   });
 
   const [errors, setErrors] = useState({
@@ -35,7 +35,7 @@ export default function Form() {
     sausage: "",
     onion: "",
     mushroom: "",
-    instruction: ""
+    instruction: "",
   });
 
   const [post, setPost] = useState([]);
@@ -46,11 +46,11 @@ export default function Form() {
   //     });
   //   }, [formState]);
 
-  const formSubmit = e => {
+  const formSubmit = (e) => {
     e.preventDefault();
     axios
       .post("https://reqres.in/api/orders", formState)
-      .then(res => {
+      .then((res) => {
         setPost(res.data);
 
         setFormState({
@@ -60,10 +60,10 @@ export default function Form() {
           sausage: "",
           onion: "",
           mushroom: "",
-          instruction: ""
+          instruction: "",
         });
       })
-      .catch(err =>
+      .catch((err) =>
         console.log(
           "something went wrong when submitting your form",
           err.response
@@ -71,30 +71,30 @@ export default function Form() {
       );
   };
 
-  const validateChange = e => {
+  const validateChange = (e) => {
     yup
       .reach(formSchema, e.target.name)
       .validate(e.target.value)
-      .then(valid => {
+      .then((valid) => {
         setErrors({
           ...errors,
-          [e.target.name]: ""
+          [e.target.name]: "",
         });
       })
-      .catch(err => {
+      .catch((err) => {
         setErrors({
           ...errors,
-          [e.target.name]: err.errors[0]
+          [e.target.name]: err.errors[0],
         });
       });
   };
 
-  const inputChange = e => {
+  const inputChange = (e) => {
     e.persist();
     const newFormData = {
       ...formState,
       [e.target.name]:
-        e.target.type === "checkbox" ? e.target.checked : e.target.value
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
     };
     validateChange(e);
     setFormState(newFormData);
