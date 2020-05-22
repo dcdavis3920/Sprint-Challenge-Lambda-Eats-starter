@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <div>
-      <h1>Create Your Fav Pizza</h1>
+      <h1>Create Your Favorite Pizza</h1>
       <Link to={"/Pizza"}>
-        <div>Order Here</div>
+        <div>Place Order</div>
       </Link>
     </div>
   );
